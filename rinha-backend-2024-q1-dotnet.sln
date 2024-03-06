@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.002.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{249D2021-A638-45BD-8A11-8D8821FA855F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crebitos.API", "Web\Crebitos.API\Crebitos.API.csproj", "{60FDBBD4-FBB2-4148-8F5A-C35C8276F022}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{E605916F-5331-4E78-B6FD-C0EF863B56FA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crebitos.Application", "Core\Crebitos.Application\Crebitos.Application.csproj", "{C6C1A5D4-006F-4955-B8CA-D2BDC4CC2D6C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crebitos.Domain", "Core\Crebitos.Domain\Crebitos.Domain.csproj", "{7C1B8920-CFE3-4523-8AD2-E10919FCF34F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infra", "Infra", "{917B69CF-9240-4CC2-AF12-D77B4BD2C7AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crebitos.Infra", "Infra\Crebitos.Infra\Crebitos.Infra.csproj", "{043BBE16-4338-46AD-AC8B-A9036BDFAB64}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{60FDBBD4-FBB2-4148-8F5A-C35C8276F022}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60FDBBD4-FBB2-4148-8F5A-C35C8276F022}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60FDBBD4-FBB2-4148-8F5A-C35C8276F022}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60FDBBD4-FBB2-4148-8F5A-C35C8276F022}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6C1A5D4-006F-4955-B8CA-D2BDC4CC2D6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6C1A5D4-006F-4955-B8CA-D2BDC4CC2D6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6C1A5D4-006F-4955-B8CA-D2BDC4CC2D6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6C1A5D4-006F-4955-B8CA-D2BDC4CC2D6C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C1B8920-CFE3-4523-8AD2-E10919FCF34F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C1B8920-CFE3-4523-8AD2-E10919FCF34F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C1B8920-CFE3-4523-8AD2-E10919FCF34F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C1B8920-CFE3-4523-8AD2-E10919FCF34F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{043BBE16-4338-46AD-AC8B-A9036BDFAB64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{043BBE16-4338-46AD-AC8B-A9036BDFAB64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{043BBE16-4338-46AD-AC8B-A9036BDFAB64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{043BBE16-4338-46AD-AC8B-A9036BDFAB64}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{60FDBBD4-FBB2-4148-8F5A-C35C8276F022} = {249D2021-A638-45BD-8A11-8D8821FA855F}
+		{C6C1A5D4-006F-4955-B8CA-D2BDC4CC2D6C} = {E605916F-5331-4E78-B6FD-C0EF863B56FA}
+		{7C1B8920-CFE3-4523-8AD2-E10919FCF34F} = {E605916F-5331-4E78-B6FD-C0EF863B56FA}
+		{043BBE16-4338-46AD-AC8B-A9036BDFAB64} = {917B69CF-9240-4CC2-AF12-D77B4BD2C7AA}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E0BFC73B-24DC-4C4B-BEEC-E589386C74C5}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,6 @@
+@Host = http://localhost:5139
+
+GET {{Host}}/clientes/1/extrato
+Accept: application/json
+
+###
