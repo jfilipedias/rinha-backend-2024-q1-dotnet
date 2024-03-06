@@ -48,4 +48,9 @@ public class TransactionRepository : ITransactionRepository
 
         return balance;
     }
+
+    public Transaction[] GetLatestByCustomerId(int customerId)
+    {
+        throw new NotImplementedException();
+    }
 }

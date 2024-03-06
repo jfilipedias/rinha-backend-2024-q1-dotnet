@@ -3,7 +3,7 @@ using Crebitos.Infra;
 
 namespace Crebitos.Application;
 
-public class TransactionService : ITransactionService
+public class TransactionService
 {
     private ITransactionRepository transactionRepository;
 

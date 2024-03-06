@@ -8,9 +8,9 @@ namespace Crebitos.API;
 [Route("/clientes")]
 public class CustomersController : ControllerBase
 {
-    private ITransactionService transactionService;
+    private TransactionService transactionService;
 
-    public CustomersController(ITransactionService transactionService)
+    public CustomersController(TransactionService transactionService)
     {
         this.transactionService = transactionService;
     }
