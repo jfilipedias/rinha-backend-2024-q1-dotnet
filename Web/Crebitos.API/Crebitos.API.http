@@ -1,4 +1,4 @@
-@Host = http://localhost:5139
+@Host = http://localhost:9999
 
 GET {{Host}}/clientes/1/extrato
 Accept: application/json
