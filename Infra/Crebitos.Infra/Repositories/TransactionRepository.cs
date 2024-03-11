@@ -7,9 +7,16 @@ namespace Crebitos.Infra;
 
 public class TransactionRepository : ITransactionRepository
 {
+    private string connectionString;
+
+    public TransactionRepository()
+    {
+        connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING") ?? "";
+    }
+
     public Balance Save(Transaction transaction)
     {
-        using (var connection = new SqlConnection())
+        using (var connection = new SqlConnection(connectionString))
         {
             connection.Open();
 
@@ -59,7 +66,7 @@ public class TransactionRepository : ITransactionRepository
 
     public List<Transaction> GetLatestByCustomerId(int customerId)
     {
-        using (var connection = new SqlConnection())
+        using (var connection = new SqlConnection(connectionString))
         {
             connection.Open();
 
