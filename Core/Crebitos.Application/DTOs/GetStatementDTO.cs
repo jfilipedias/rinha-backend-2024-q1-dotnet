@@ -36,5 +36,5 @@ public class GetStatementDTO
     public BalanceDTO Balance { get; set; }
 
     [JsonPropertyName("ultimas_transacoes")]
-    public TransactionDTO[] Transactions { get; set; }
+    public List<TransactionDTO> Transactions { get; set; }
 }

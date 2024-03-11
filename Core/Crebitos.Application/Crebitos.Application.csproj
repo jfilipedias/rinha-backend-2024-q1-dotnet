@@ -7,12 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
     <PackageReference Include="FluentValidation" Version="11.9.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Crebitos.Domain\Crebitos.Domain.csproj" />
-    <ProjectReference Include="..\..\Infra\Crebitos.Infra\Crebitos.Infra.csproj" />
   </ItemGroup>
 
 </Project>

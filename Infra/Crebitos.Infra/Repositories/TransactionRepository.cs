@@ -1,5 +1,6 @@
 ﻿using System.Data.SqlClient;
 using Dapper;
+using Crebitos.Application;
 using Crebitos.Domain;
 
 namespace Crebitos.Infra;
@@ -8,17 +9,24 @@ public class TransactionRepository : ITransactionRepository
 {
     public Balance Save(Transaction transaction)
     {
-        Balance balance;
         using (var connection = new SqlConnection())
         {
             connection.Open();
 
             using (var tx = connection.BeginTransaction())
             {
-                balance = connection.QuerySingle<Balance>(
-                    "SELECT c.debit_limit AS Limit, b.value AS Total FROM customers AS c INNER JOIN balances AS b ON b.customer_id = c.id WHERE c.id = @CustomerId FOR UPDATE;",
-                    new { CustomerId = transaction.CustomerId }
-                );
+                Balance balance;
+                try
+                {
+                    balance = connection.QuerySingle<Balance>(
+                        "SELECT c.debit_limit AS Limit, b.value AS Total FROM customers AS c INNER JOIN balances AS b ON b.customer_id = c.id WHERE c.id = @CustomerId FOR UPDATE;",
+                        new { transaction.CustomerId }
+                    );
+                }
+                catch (InvalidOperationException)
+                {
+                    throw new EntityNotFoundException();
+                }
 
                 var signedValue = transaction.Value;
                 if (transaction.Type == "d")
@@ -32,25 +40,35 @@ public class TransactionRepository : ITransactionRepository
                 }
 
                 connection.Execute(
-                    "UPDATE balances SET value = value + @Value WHERE customer_id = @CustomerId",
-                    new { Value = signedValue, CustomerId = transaction.CustomerId }
+                    "UPDATE balances SET value = value + @Value WHERE customer_id = @CustomerId;",
+                    new { Value = signedValue, transaction.CustomerId }
                 );
 
                 connection.Execute(
-                    "INSERT INTO transactions (value, type, description, customer_id) VALUES (@Value, @Type, @Description, @CustomerId)",
-                    new { Value = transaction.Value, Type = transaction.Type, Description = transaction.Description, CustomerId = transaction.CustomerId }
+                    "INSERT INTO transactions (value, type, description, customer_id) VALUES (@Value, @Type, @Description, @CustomerId);",
+                    new { transaction.Value, transaction.Type, transaction.Description, transaction.CustomerId }
                 );
 
                 tx.Commit();
                 balance.Total += signedValue;
+
+                return balance;
             }
         }
-
-        return balance;
     }
 
-    public Transaction[] GetLatestByCustomerId(int customerId)
+    public List<Transaction> GetLatestByCustomerId(int customerId)
     {
-        throw new NotImplementedException();
+        using (var connection = new SqlConnection())
+        {
+            connection.Open();
+
+            var transactions = connection.Query<Transaction>(
+                "SELECT type, value, description, created_at FROM transactions WHERE customer_id = @CustomerId ORDER BY created_at DESC LIMIT 10;",
+                new { CustomerId = customerId }
+            ).ToList();
+
+            return transactions;
+        }
     }
 }

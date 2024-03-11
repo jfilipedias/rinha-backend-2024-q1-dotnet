@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Core\Crebitos.Application\Crebitos.Application.csproj" />
     <ProjectReference Include="..\..\Core\Crebitos.Domain\Crebitos.Domain.csproj" />
   </ItemGroup>
 

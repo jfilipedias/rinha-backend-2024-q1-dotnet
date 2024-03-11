@@ -1,9 +1,9 @@
 ﻿using Crebitos.Domain;
 
-namespace Crebitos.Infra;
+namespace Crebitos.Application;
 
 public interface ITransactionRepository
 {
     Balance Save(Transaction transaction);
-    Transaction[] GetLatestByCustomerId(int customerId);
+    List<Transaction> GetLatestByCustomerId(int customerId);
 }

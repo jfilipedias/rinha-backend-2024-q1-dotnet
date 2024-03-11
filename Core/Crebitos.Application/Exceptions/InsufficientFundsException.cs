@@ -1,4 +1,4 @@
-﻿namespace Crebitos.Infra;
+﻿namespace Crebitos.Application;
 
 public class InsufficientFundsException : Exception
 {

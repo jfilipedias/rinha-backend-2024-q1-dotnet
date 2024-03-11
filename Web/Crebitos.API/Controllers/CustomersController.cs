@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Crebitos.Application;
-using Crebitos.Infra;
 
 namespace Crebitos.API;
 
@@ -9,16 +8,26 @@ namespace Crebitos.API;
 public class CustomersController : ControllerBase
 {
     private TransactionService transactionService;
+    private StatementService statementService;
 
-    public CustomersController(TransactionService transactionService)
+    public CustomersController(TransactionService transactionService, StatementService statementService)
     {
         this.transactionService = transactionService;
+        this.statementService = statementService;
     }
 
     [HttpGet("{customerId}/extrato")]
     public IActionResult FindStatementByCustomerId([FromRoute] int customerId)
     {
-        return null;
+        try
+        {
+            var result = statementService.GetStatementByCustomerId(customerId);
+            return Ok(result);
+        }
+        catch (EntityNotFoundException)
+        {
+            return NotFound();
+        }
     }
 
     [HttpPost("{customerId}/transacoes")]
@@ -36,6 +45,10 @@ public class CustomersController : ControllerBase
         catch (InsufficientFundsException)
         {
             return UnprocessableEntity();
+        }
+        catch (EntityNotFoundException)
+        {
+            return NotFound();
         }
     }
 }

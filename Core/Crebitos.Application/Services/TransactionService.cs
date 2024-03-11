@@ -1,15 +1,17 @@
-﻿using Crebitos.Domain;
-using Crebitos.Infra;
+﻿using AutoMapper;
+using Crebitos.Domain;
 
 namespace Crebitos.Application;
 
 public class TransactionService
 {
     private ITransactionRepository transactionRepository;
+    private IMapper mapper;
 
-    public TransactionService(ITransactionRepository transactionRepository)
+    public TransactionService(ITransactionRepository transactionRepository, IMapper mapper)
     {
         this.transactionRepository = transactionRepository;
+        this.mapper = mapper;
     }
 
     public CreateTransactionResultDTO CreateTransactionsByCustomerId(int customerId, CreateTransactionDTO createTransactionDTO)
@@ -22,20 +24,11 @@ public class TransactionService
             throw new InvalidDTOException();
         }
 
-        var transaction = new Transaction()
-        {
-            CustomerId = customerId,
-            Description = createTransactionDTO.Description,
-            Type = createTransactionDTO.Type,
-            Value = createTransactionDTO.Value
-        };
+        var transaction = mapper.Map<CreateTransactionDTO, Transaction>(createTransactionDTO);
+        transaction.CustomerId = customerId;
 
         var balance = transactionRepository.Save(transaction);
-        var createTransactionResultDTO = new CreateTransactionResultDTO()
-        {
-            Balance = balance.Total,
-            Limit = balance.Limit
-        };
+        var createTransactionResultDTO = mapper.Map<Balance, CreateTransactionResultDTO>(balance);
 
         return createTransactionResultDTO;
     }
