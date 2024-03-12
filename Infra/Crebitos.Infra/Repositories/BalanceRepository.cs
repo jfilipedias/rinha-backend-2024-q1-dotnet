@@ -13,10 +13,10 @@ public class BalanceRepository : IBalanceRepository
         this.connection = connection;
     }
 
-    public async Task<Balance> GetByCustomerId(int customerId)
+    public Balance GetByCustomerId(int customerId)
     {
-        await connection.OpenAsync();
-        await using var command = connection.CreateCommand();
+        connection.Open();
+        using var command = connection.CreateCommand();
         command.CommandText = @"
             SELECT c.debit_limit AS limit, b.value AS total 
             FROM customers AS c 
@@ -24,8 +24,8 @@ public class BalanceRepository : IBalanceRepository
             WHERE c.id = $1;";
         command.Parameters.AddWithValue(customerId);
 
-        await using var reader = await command.ExecuteReaderAsync();
-        await reader.ReadAsync();
+        using var reader = command.ExecuteReader();
+        reader.ReadAsync();
         var balance = new Balance()
         {
             Limit = reader.GetInt32(0),

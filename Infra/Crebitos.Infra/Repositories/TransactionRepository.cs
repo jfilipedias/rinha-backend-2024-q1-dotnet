@@ -13,12 +13,12 @@ public class TransactionRepository : ITransactionRepository
         this.connection = connection;
     }
 
-    public async Task<Balance> Save(Transaction transaction)
+    public Balance Save(Transaction transaction)
     {
-        await connection.OpenAsync();
-        await using var tx = await connection.BeginTransactionAsync();
+        connection.Open();
+        using var tx = connection.BeginTransaction();
 
-        await using var getBalanceCommand = connection.CreateCommand();
+        using var getBalanceCommand = connection.CreateCommand();
         getBalanceCommand.CommandText = @"
             SELECT c.debit_limit AS Limit, b.value AS Total
             FROM customers AS c
@@ -26,8 +26,8 @@ public class TransactionRepository : ITransactionRepository
             WHERE c.id = $1
             FOR UPDATE;";
         getBalanceCommand.Parameters.AddWithValue(transaction.CustomerId);
-        await using var getBalanceReader = await getBalanceCommand.ExecuteReaderAsync();
-        await getBalanceReader.ReadAsync();
+        using var getBalanceReader = getBalanceCommand.ExecuteReader();
+        getBalanceReader.Read();
 
         var balance = new Balance()
         {
@@ -46,16 +46,16 @@ public class TransactionRepository : ITransactionRepository
             }
         }
 
-        await using var updateBalanceCommand = connection.CreateCommand();
+        using var updateBalanceCommand = connection.CreateCommand();
         updateBalanceCommand.CommandText = @"
             UPDATE balances 
             SET value = value + $1 
             WHERE customer_id = $2;";
         updateBalanceCommand.Parameters.AddWithValue(signedValue);
         updateBalanceCommand.Parameters.AddWithValue(transaction.CustomerId);
-        await updateBalanceCommand.ExecuteNonQueryAsync();
+        updateBalanceCommand.ExecuteNonQuery();
 
-        await using var insertTransactionCommand = connection.CreateCommand();
+        using var insertTransactionCommand = connection.CreateCommand();
         insertTransactionCommand.CommandText = @"
             INSERT INTO transactions (value, type, description, customer_id) 
             VALUES ($1, $2, $3, $4);";
@@ -63,18 +63,18 @@ public class TransactionRepository : ITransactionRepository
         insertTransactionCommand.Parameters.AddWithValue(transaction.Type);
         insertTransactionCommand.Parameters.AddWithValue(transaction.Description);
         insertTransactionCommand.Parameters.AddWithValue(transaction.CustomerId);
-        await insertTransactionCommand.ExecuteNonQueryAsync();
+        insertTransactionCommand.ExecuteNonQuery();
 
-        await tx.CommitAsync();
+        tx.CommitAsync();
 
         balance.Total += signedValue;
         return balance;
     }
 
-    public async Task<List<Transaction>> GetLatestByCustomerId(int customerId)
+    public List<Transaction> GetLatestByCustomerId(int customerId)
     {
-        await connection.OpenAsync();
-        await using var command = connection.CreateCommand();
+        connection.Open();
+        using var command = connection.CreateCommand();
         command.CommandText = @"
             SELECT type, value, description, created_at 
             FROM transactions 
@@ -82,10 +82,10 @@ public class TransactionRepository : ITransactionRepository
             ORDER BY created_at DESC 
             LIMIT 10;";
         command.Parameters.AddWithValue(customerId);
-        await using var reader = await command.ExecuteReaderAsync();
+        using var reader = command.ExecuteReader();
 
         var transactions = new List<Transaction>();
-        while (await reader.ReadAsync())
+        while (reader.Read())
         {
             transactions.Add(new Transaction()
             {
