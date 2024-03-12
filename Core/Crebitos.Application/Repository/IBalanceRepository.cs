@@ -4,5 +4,5 @@ namespace Crebitos.Application;
 
 public interface IBalanceRepository
 {
-    Balance GetByCustomerId(int customerId);
+    Task<Balance> GetByCustomerId(int customerId);
 }

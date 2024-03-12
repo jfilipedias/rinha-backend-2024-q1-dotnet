@@ -4,6 +4,6 @@ namespace Crebitos.Application;
 
 public interface ITransactionRepository
 {
-    Balance Save(Transaction transaction);
-    List<Transaction> GetLatestByCustomerId(int customerId);
+    Task<Balance> Save(Transaction transaction);
+    Task<List<Transaction>> GetLatestByCustomerId(int customerId);
 }

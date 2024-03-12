@@ -6,7 +6,8 @@ services:
     hostname: api01
     build: .
     environment:
-      - CONNECTION_STRING=Server=db;Port=5432;Database=local_db;User Id=local_user;Password=local_password;
+      - ASPNETCORE_URLS=http://+:8080
+      - CONNECTION_STRING=Host=db;Database=local_db;Username=local_user;Password=local_password;
     ports:
       - "8081:8080"
     depends_on:
