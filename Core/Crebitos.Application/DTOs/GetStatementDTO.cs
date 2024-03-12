@@ -4,7 +4,7 @@ namespace Crebitos.Application;
 
 public class BalanceDTO
 {
-    [JsonPropertyName("limite")]
+    [JsonPropertyName("total")]
     public int Total { get; set; }
 
     [JsonPropertyName("limite")]

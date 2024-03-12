@@ -11,7 +11,7 @@ builder.Services.AddScoped<StatementService>();
 builder.Services.AddScoped<TransactionService>();
 builder.Services.AddScoped<IBalanceRepository, BalanceRepository>();
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddAutoMapper(typeof(BalanceMapper), typeof(TransactionMapper));
 builder.Services.AddNpgsqlDataSource(Environment.GetEnvironmentVariable("CONNECTION_STRING") ?? "");
 builder.Services.AddControllers();
 

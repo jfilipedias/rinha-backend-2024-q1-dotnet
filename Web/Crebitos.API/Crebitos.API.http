@@ -1,6 +1,16 @@
 @Host = http://localhost:9999
+@CustomerId = 1
 
-GET {{Host}}/clientes/1/extrato
+GET {{Host}}/clientes/{{CustomerId}}/extrato
 Accept: application/json
 
 ###
+
+POST {{Host}}/clientes/{{CustomerId}}/transacoes
+Content-Type: application/json
+
+{
+    "valor" : 100,
+    "tipo" : "c",
+    "descricao" : "pix 2"
+}
